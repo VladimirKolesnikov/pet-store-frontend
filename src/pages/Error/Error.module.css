@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  place-items: center;
+  min-height: 100vh;
+  gap: 20px;
+  padding: 24px;
+  text-align: center;
+}
+
+.title {
+  font-size: 48px;
+  margin: 0;
+  color: var(--accent);
+}
+
+.urlBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--code-bg);
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-top: 12px;
+}
+
+.urlBox span {
+  font-size: 14px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.urlBox code {
+  color: var(--accent);
+  font-size: 18px;
+  word-break: break-all;
+}
+
+.homeLink {
+  margin-top: 24px;
+  display: inline-flex;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: filter 0.2s;
+}
+
+.homeLink:hover {
+  filter: brightness(1.1);
+}
