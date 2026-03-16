@@ -6,10 +6,13 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        
         {/* Logo */}
         <Link to="/" className={styles.logo}>
-          <img src="/favicon.png" alt="Pet Store Logo" className={styles.logoImage} />
+          <img
+            src="/favicon.png"
+            alt="Pet Store Logo"
+            className={styles.logoImage}
+          />
           <span>Pet Store</span>
         </Link>
 
@@ -26,7 +29,7 @@ export function Header() {
           <button className={styles.actionBtn}>
             <ShoppingBag className={styles.icon} size={24} />
           </button>
-          
+
           <Link to="/login" className={styles.loginBtn}>
             <User className={styles.icon} size={20} />
             <span>Login / Sign up</span>

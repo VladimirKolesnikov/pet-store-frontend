@@ -14,7 +14,9 @@ export function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>{isLogin ? 'Welcome Back' : 'Create an Account'}</h1>
+        <h1 className={styles.title}>
+          {isLogin ? 'Welcome Back' : 'Create an Account'}
+        </h1>
         <p className={styles.subtitle}>
           {isLogin
             ? 'Enter your credentials to access your account.'
@@ -31,12 +33,22 @@ export function Login() {
 
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" placeholder="john@example.com" required />
+            <input
+              type="email"
+              id="email"
+              placeholder="john@example.com"
+              required
+            />
           </div>
 
           <div className={styles.inputGroup}>
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="••••••••" required />
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              required
+            />
           </div>
 
           <button type="submit" className={styles.submitBtn}>
