@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom'
 import styles from './Error.module.css'
 
-export function ErrorPage() {
+export default function ErrorPage() {
   const location = useLocation()
 
   const url = `${location.pathname}${location.search}${location.hash}`

@@ -1,9 +1,19 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 
 export function Login() {
-  const [isLogin, setIsLogin] = useState(true)
+  const location = useLocation()
+  const navigate = useNavigate()
+  
+  const isLogin = location.pathname !== '/signup'
+
+  const toggleMode = () => {
+    if (isLogin) {
+      navigate('/signup')
+    } else {
+      navigate('/login')
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,7 +71,7 @@ export function Login() {
           <button
             type="button"
             className={styles.toggleBtn}
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={toggleMode}
           >
             {isLogin ? 'Sign up' : 'Log in'}
           </button>
