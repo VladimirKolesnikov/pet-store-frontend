@@ -1,13 +1,22 @@
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { login, register } from '../../api/auth.service'
 import styles from './Login.module.css'
 
 export function Login() {
   const location = useLocation()
   const navigate = useNavigate()
-  
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const isLogin = location.pathname !== '/signup'
 
   const toggleMode = () => {
+    setError('')
     if (isLogin) {
       navigate('/signup')
     } else {
@@ -15,10 +24,23 @@ export function Login() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log(isLogin ? 'Logging in...' : 'Signing up...')
+    setError('')
+    setLoading(true)
+
+    try {
+      if (isLogin) {
+        await login({ email, password })
+      } else {
+        await register({ email, password, name })
+      }
+      navigate('/dashboard') // Or wherever the user should go after login
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'An error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -33,11 +55,20 @@ export function Login() {
             : 'Fill in the details below to get started.'}
         </p>
 
+        {error && <div className={styles.error}>{error}</div>}
+
         <form className={styles.form} onSubmit={handleSubmit}>
           {!isLogin && (
             <div className={styles.inputGroup}>
               <label htmlFor="name">Full Name</label>
-              <input type="text" id="name" placeholder="John Doe" required />
+              <input
+                type="text"
+                id="name"
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </div>
           )}
 
@@ -47,6 +78,8 @@ export function Login() {
               type="email"
               id="email"
               placeholder="john@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -57,12 +90,18 @@ export function Login() {
               type="password"
               id="password"
               placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <button type="submit" className={styles.submitBtn}>
-            {isLogin ? 'Sign In' : 'Sign Up'}
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            disabled={loading}
+          >
+            {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
           </button>
         </form>
 
