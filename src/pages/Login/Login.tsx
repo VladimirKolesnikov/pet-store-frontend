@@ -9,7 +9,7 @@ export function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -33,9 +33,14 @@ export function Login() {
       if (isLogin) {
         await login({ email, password })
       } else {
-        await register({ email, password, name })
+        if (password !== confirmPassword) {
+          setError('Passwords do not match')
+          setLoading(false)
+          return
+        }
+        await register({ email, password })
       }
-      navigate('/dashboard') // Or wherever the user should go after login
+      navigate('/')
     } catch (err: any) {
       setError(err.response?.data?.message || 'An error occurred. Please try again.')
     } finally {
@@ -58,20 +63,6 @@ export function Login() {
         {error && <div className={styles.error}>{error}</div>}
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          {!isLogin && (
-            <div className={styles.inputGroup}>
-              <label htmlFor="name">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-          )}
-
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
             <input
@@ -95,6 +86,20 @@ export function Login() {
               required
             />
           </div>
+
+          {!isLogin && (
+            <div className={styles.inputGroup}>
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+          )}
 
           <button
             type="submit"

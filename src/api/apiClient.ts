@@ -1,64 +1,65 @@
-import axios from 'axios'
-import {
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  clearTokens,
-} from '../utils/storage'
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+
+interface RefreshResponse {
+  accessToken: string;
+}
+
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+const addAccessTokenInterceptor = (config: InternalAxiosRequestConfig) => {
+  const token = localStorage.getItem('accessToken');
+
+  if (config.headers && token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+};
+
+const refreshTokensInterceptor = async (error: AxiosError) => {
+  const originalRequest = error.config as CustomAxiosRequestConfig;
+
+  if (error.response?.status === 401 && !originalRequest._retry) {
+    originalRequest._retry = true;
+
+    try {
+      const res = await axios.get<RefreshResponse>(
+        "http://localhost:3000/auth/refresh",
+        { withCredentials: true }
+      );
+
+      const newAccessToken = res.data?.accessToken;
+      localStorage.setItem("accessToken", newAccessToken);
+
+      if (originalRequest.headers) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      }
+
+      return apiClient(originalRequest);
+    } catch (refreshError) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
+      window.dispatchEvent(new Event('logout')) // it is better to use a redirect
+    }
+  }
+
+  return Promise.reject(error);
+};
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
-})
+});
 
-// Request interceptor for adding the bearer token
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken()
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-  },
-  (error) => Promise.reject(error)
-)
-
-// Response interceptor for handling token refresh
+apiClient.interceptors.request.use(addAccessTokenInterceptor);
 apiClient.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config
+  refreshTokensInterceptor
+);
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true
-
-      const refreshToken = getRefreshToken()
-      if (refreshToken) {
-        try {
-          const response = await axios.post(
-            `${apiClient.defaults.baseURL}/auth/refresh`,
-            { refreshToken }
-          )
-          const { accessToken } = response.data
-          setAccessToken(accessToken)
-
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`
-          return apiClient(originalRequest)
-        } catch (refreshError) {
-          clearTokens()
-          window.location.href = '/login'
-          return Promise.reject(refreshError)
-        }
-      } else {
-        clearTokens()
-        window.location.href = '/login'
-      }
-    }
-
-    return Promise.reject(error)
-  }
-)
-
-export default apiClient
+export default apiClient;

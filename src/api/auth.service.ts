@@ -1,45 +1,45 @@
-import apiClient from './apiClient'
-import {
-  setAccessToken,
-  setRefreshToken,
-  clearTokens,
-} from '../utils/storage'
 
-export interface AuthResponse {
-  accessToken: string
-  refreshToken: string
-  user: {
-    id: string
-    email: string
-    name: string
-    role: string
-  }
+import apiClient from "./apiClient";
+
+interface RegisterResponse {
+  accessToken: string;
 }
 
-export const login = async (credentials: any): Promise<AuthResponse> => {
-  const response = await apiClient.post<AuthResponse>('/auth/login', credentials)
-  const { accessToken, refreshToken } = response.data
-  setAccessToken(accessToken)
-  setRefreshToken(refreshToken)
-  return response.data
+interface LoginResponse {
+  accessToken: string;
 }
 
-export const register = async (userData: any): Promise<AuthResponse> => {
-  const response = await apiClient.post<AuthResponse>(
-    '/auth/signup',
-    userData
-  )
-  const { accessToken, refreshToken } = response.data
-  setAccessToken(accessToken)
-  setRefreshToken(refreshToken)
-  return response.data
+
+export const register = async ({ email, password }: any) => {
+  const response = await apiClient.post<RegisterResponse>("auth/register", {
+    email,
+    password,
+  });
+
+  localStorage.setItem('accessToken', response.data.accessToken);
 }
 
-export const logout = async (): Promise<void> => {
-  try {
-    await apiClient.post('/auth/logout')
-  } finally {
-    clearTokens()
-    window.location.href = '/login'
-  }
+export const login = async ({ email, password }: any) => {
+  console.log('1')
+  const response = await apiClient.post<LoginResponse>("auth/login", {
+    email,
+    password,
+  });
+  console.log('2')
+
+  localStorage.setItem('accessToken', response.data.accessToken);
+  console.log('3')
+}
+
+export const logout = async () => {
+  await apiClient.get("auth/logout");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+
+  // How to notify the AuthProvider that the user is logged out?
+}
+
+export const me = async () => {
+  const response = await apiClient.get("auth/me");
+  return response.data;
 }
