@@ -31,6 +31,10 @@
   width: 32px;
 }
 
+.categoriesWrapper {
+  position: relative;
+}
+
 .categoriesBtn {
   display: flex;
   align-items: center;
@@ -47,8 +51,118 @@
   transition: all 0.2s;
 }
 
-.categoriesBtn:hover {
+.categoriesBtn:hover,
+.categoriesBtn.active {
   background: var(--code-bg);
+  border-color: var(--accent);
+}
+
+.categoriesDropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 280px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* .dropdownHeader {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--code-bg);
+} */
+
+/* .dropdownHeader h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+} */
+
+.categoriesList {
+  padding: 8px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.categoryItem {
+  padding-left: calc(var(--level) * 16px);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: default;
+  transition: background 0.2s;
+}
+
+.categoryHeader:hover {
+  background: var(--code-bg);
+}
+
+.categoryName {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.categoryItem[style*='--level: 0'] .categoryName {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.expandBtn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.expandBtn:hover {
+  background: var(--border);
+  color: var(--accent);
+}
+
+.categoryChildren {
+  border-left: 1px solid var(--border);
+  margin-left: 24px;
+  margin-bottom: 4px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
 }
 
 .spacer {
@@ -100,6 +214,7 @@
 }
 
 @media (max-width: 768px) {
+
   .categoriesBtn span,
   .loginBtn span {
     display: none;
