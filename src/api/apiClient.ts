@@ -26,7 +26,7 @@ const refreshTokensInterceptor = async (error: AxiosError) => {
 
     try {
       const res = await axios.get<RefreshResponse>(
-        "http://localhost:3000/auth/refresh",
+        `${import.meta.env.VITE_API_URL}/auth/refresh`,
         { withCredentials: true }
       );
 
@@ -49,7 +49,7 @@ const refreshTokensInterceptor = async (error: AxiosError) => {
 };
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

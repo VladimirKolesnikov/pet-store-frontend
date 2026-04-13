@@ -1,7 +1,7 @@
 import apiClient from './apiClient';
-import type { Category } from '../components/Header/types';
+import type { Category } from '../types/category';
 
-const ROOT_CATEGORY_ID = '23';
+const ROOT_CATEGORY_ID = '53';
 
 export const categoryService = {
   getChildren: async (parentId: string = ROOT_CATEGORY_ID) => {

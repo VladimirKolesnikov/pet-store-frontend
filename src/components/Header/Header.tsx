@@ -4,14 +4,14 @@ import { ShoppingBag, Menu, User, ChevronRight, ChevronDown } from 'lucide-react
 import styles from './Header.module.css'
 import { useQuery } from '@tanstack/react-query'
 import { categoryService } from '../../api/category.service'
-import type { Category } from './types'
+import type { Category } from '../../types/category'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
 
   const { data: categories = [], isLoading } = useQuery({
-    queryKey: ['categories', '23', 'children'],
+    queryKey: ['cat-menu'],
     queryFn: () => categoryService.getChildren()
   });
 
