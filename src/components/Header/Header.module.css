@@ -175,6 +175,13 @@
   gap: 16px;
 }
 
+.userEmail {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
 .actionBtn {
   background: transparent;
   border: none;
@@ -191,6 +198,30 @@
 .actionBtn:hover {
   background: var(--code-bg);
   color: var(--text-h);
+}
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
 }
 
 .loginBtn {
@@ -214,6 +245,7 @@
 }
 
 @media (max-width: 768px) {
+  .userEmail,
 
   .categoriesBtn span,
   .loginBtn span {

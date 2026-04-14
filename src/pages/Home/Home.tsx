@@ -32,9 +32,7 @@ export function Home() {
 
   return (
     <div className={styles.container}>
-      {/* <h1 className={styles.title}>Welcome to Pet Store</h1>
-      <p className={styles.subtitle}>Find the best products for your furry friends.</p> */}
-
+      <h3>Welcome to Pet Store. Find the best products for your furry friends.</h3>
       <div className={styles.grid}>
         {products?.map((product) => <ProductCard key={product.id} product={product} />)}
         {products?.length === 0 && <p>No products found.</p>}

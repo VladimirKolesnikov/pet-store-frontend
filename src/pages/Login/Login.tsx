@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { login, register } from '../../api/auth.service'
+import { useAuth } from '../../context/AuthContext'
 import styles from './Login.module.css'
 
 export function Login() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { isAuthenticated, login, register } = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -14,6 +15,12 @@ export function Login() {
   const [loading, setLoading] = useState(false)
 
   const isLogin = location.pathname !== '/signup'
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated, navigate])
 
   const toggleMode = () => {
     setError('')

@@ -1,45 +1,32 @@
-
-import apiClient from "./apiClient";
-
-interface RegisterResponse {
-  accessToken: string;
-}
+import apiClient from './apiClient'
+import { clearAuthStorage, setAccessToken, type StoredUser } from '../utils/storage'
 
 interface LoginResponse {
-  accessToken: string;
+  access_token: string
 }
 
-
-export const register = async ({ email, password }: any) => {
-  const response = await apiClient.post<RegisterResponse>("auth/register", {
+export const register = async ({ email, password }: { email: string; password: string }) => {
+  await apiClient.post('auth/register', {
     email,
     password,
-  });
-
-  localStorage.setItem('accessToken', response.data.accessToken);
+  })
 }
 
-export const login = async ({ email, password }: any) => {
-  console.log('1')
-  const response = await apiClient.post<LoginResponse>("auth/login", {
+export const login = async ({ email, password }: { email: string; password: string }) => {
+  const response = await apiClient.post<LoginResponse>('auth/login', {
     email,
     password,
-  });
-  console.log('2')
+  })
 
-  localStorage.setItem('accessToken', response.data.accessToken);
-  console.log('3')
+  setAccessToken(response.data.access_token)
 }
 
 export const logout = async () => {
-  await apiClient.get("auth/logout");
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("user");
-
-  // How to notify the AuthProvider that the user is logged out?
+  await apiClient.post('auth/logout')
+  clearAuthStorage()
 }
 
 export const me = async () => {
-  const response = await apiClient.get("auth/me");
-  return response.data;
+  const response = await apiClient.get<StoredUser>('auth/me')
+  return response.data
 }

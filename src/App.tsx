@@ -2,9 +2,12 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { Loader } from './components/Loader/Loader'
+import { AuthProvider } from './context/AuthContext'
 import { Home } from './pages/Home/Home'
 import { Login } from './pages/Login/Login'
 
+const ProductDetail = lazy(() => import('./pages/ProductDetail/ProductDetail'))
+const Cart = lazy(() => import('./pages/Cart/Cart'))
 const ErrorPage = lazy(() => import('./pages/Error/Error'))
 
 const router = createBrowserRouter([
@@ -25,6 +28,14 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: '/product/:id',
+        element: <Suspense fallback={<Loader />}><ProductDetail /></Suspense>,
+      },
+      {
+        path: '/cart',
+        element: <Suspense fallback={<Loader />}><Cart /></Suspense>,
+      },
+      {
         path: '*',
         element: (
           <Suspense fallback={<Loader />}>
@@ -37,7 +48,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App

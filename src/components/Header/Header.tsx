@@ -1,19 +1,37 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ShoppingBag, Menu, User, ChevronRight, ChevronDown } from 'lucide-react'
 import styles from './Header.module.css'
 import { useQuery } from '@tanstack/react-query'
 import { categoryService } from '../../api/category.service'
+import { cartService } from '../../api/cart.service'
+import { useAuth } from '../../context/AuthContext'
 import type { Category } from '../../types/category'
 
 export function Header() {
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
+  const { user, isAuthenticated, logout } = useAuth()
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['cat-menu'],
     queryFn: () => categoryService.getChildren()
   });
+
+  const { data: cartItems } = useQuery({
+    queryKey: ['cart'],
+    queryFn: cartService.getCart,
+    enabled: isAuthenticated,
+  });
+  const cartItemCount = isAuthenticated
+    ? cartItems?.items.reduce((sum, item) => sum + item.quantity, 0) || 0
+    : 0
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
 
   const toggleCategory = (id: string) => {
     const newExpandedIds = new Set(expandedIds)
@@ -26,7 +44,6 @@ export function Header() {
   }
 
   const renderCategory = (category: Category, level: number = 0) => {
-    console.log(category)
     const isExpanded = expandedIds.has(category.id)
     const hasChildren = category.children && category.children.length > 0
 
@@ -93,14 +110,32 @@ export function Header() {
 
         {/* Right Actions */}
         <div className={styles.actions}>
-          <button className={styles.actionBtn}>
-            <ShoppingBag className={styles.icon} size={24} />
-          </button>
+          {isAuthenticated && user && (
+            <span className={styles.userEmail}>{user.email}</span>
+          )}
 
-          <Link to="/login" className={styles.loginBtn}>
-            <User className={styles.icon} size={20} />
-            <span>Login / Sign up</span>
-          </Link>
+          {isAuthenticated && (
+            <Link to="/cart" className={styles.actionBtn}>
+              <div className={styles.cartIconWrapper}>
+                <ShoppingBag className={styles.icon} size={24} />
+                {cartItemCount > 0 && (
+                  <span className={styles.cartBadge}>{cartItemCount}</span>
+                )}
+              </div>
+            </Link>
+          )}
+
+          {isAuthenticated ? (
+            <button type="button" className={styles.loginBtn} onClick={handleLogout}>
+              <User className={styles.icon} size={20} />
+              <span>Log out</span>
+            </button>
+          ) : (
+            <Link to="/login" className={styles.loginBtn}>
+              <User className={styles.icon} size={20} />
+              <span>Login / Sign up</span>
+            </Link>
+          )}
         </div>
       </div>
       {/* Overlay to close menu when clicking outside */}
