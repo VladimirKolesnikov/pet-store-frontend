@@ -48,8 +48,11 @@ export function Login() {
         await register({ email, password })
       }
       navigate('/')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred. Please try again.')
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } }
+      setError(
+        e.response?.data?.message || 'An error occurred. Please try again.'
+      )
     } finally {
       setLoading(false)
     }
@@ -108,11 +111,7 @@ export function Login() {
             </div>
           )}
 
-          <button
-            type="submit"
-            className={styles.submitBtn}
-            disabled={loading}
-          >
+          <button type="submit" className={styles.submitBtn} disabled={loading}>
             {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
           </button>
         </form>

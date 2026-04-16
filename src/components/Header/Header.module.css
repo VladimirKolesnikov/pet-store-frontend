@@ -65,7 +65,9 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow: hidden;
   animation: slideIn 0.2s ease-out;
@@ -127,7 +129,15 @@
   font-weight: 500;
 }
 
-.categoryItem[style*='--level: 0'] .categoryName {
+.categoryLink {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.categoryItem[style*='--level: 0'] .categoryName,
+.categoryItem[style*='--level: 0'] .categoryLink {
   font-weight: 600;
   color: var(--text-h);
 }
@@ -142,7 +152,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, transform 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s;
 }
 
 .expandBtn:hover {
@@ -246,7 +258,6 @@
 
 @media (max-width: 768px) {
   .userEmail,
-
   .categoriesBtn span,
   .loginBtn span {
     display: none;

@@ -1,33 +1,37 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, ShoppingCart, Star } from 'lucide-react';
-import { productService } from '../../api/product.service';
-import { cartService } from '../../api/cart.service';
-import { Loader } from '../../components/Loader/Loader';
-import { useAuth } from '../../context/AuthContext';
-import styles from './ProductDetail.module.css';
+import React from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { ArrowLeft, ShoppingCart, Star } from 'lucide-react'
+import { productService } from '../../api/product.service'
+import { cartService } from '../../api/cart.service'
+import { Loader } from '../../components/Loader/Loader'
+import { useAuth } from '../../context/AuthContext'
+import styles from './ProductDetail.module.css'
 
 const ProductDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { isAuthenticated } = useAuth();
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const { isAuthenticated } = useAuth()
 
-  const { data: product, isLoading, error } = useQuery({
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['product', id],
     queryFn: () => productService.findOne(Number(id)),
     enabled: !!id,
-  });
+  })
 
   const addToCartMutation = useMutation({
     mutationFn: () => cartService.addToCart(Number(id)),
     onSuccess: (cart) => {
-      queryClient.setQueryData(['cart'], cart);
+      queryClient.setQueryData(['cart'], cart)
     },
-  });
+  })
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader />
   if (error || !product) {
     return (
       <div className={styles.errorContainer}>
@@ -36,27 +40,27 @@ const ProductDetail: React.FC = () => {
           <ArrowLeft size={20} /> Back to Home
         </button>
       </div>
-    );
+    )
   }
 
   const handleAddToCart = async () => {
-    if (!product) return;
+    if (!product) return
     if (!isAuthenticated) {
-      navigate('/login');
-      return;
+      navigate('/login')
+      return
     }
 
     try {
-      await addToCartMutation.mutateAsync();
+      await addToCartMutation.mutateAsync()
     } catch {
-      alert('Failed to add to cart');
+      alert('Failed to add to cart')
     }
-  };
+  }
 
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(product.price);
+  }).format(product.price)
 
   return (
     <div className={styles.container}>
@@ -67,8 +71,14 @@ const ProductDetail: React.FC = () => {
       <div className={styles.productGrid}>
         <div className={styles.imageSection}>
           <div className={styles.imageCard}>
-            <img src={product.imageUrl} alt={product.name} className={styles.image} />
-            <div className={styles.badge}>{product.category?.name || 'New'}</div>
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className={styles.image}
+            />
+            <div className={styles.badge}>
+              {product.category?.name || 'New'}
+            </div>
           </div>
         </div>
 
@@ -77,7 +87,7 @@ const ProductDetail: React.FC = () => {
             Home / Products / {product.category?.name || 'General'}
           </div>
           <h1 className={styles.title}>{product.name}</h1>
-          
+
           <div className={styles.ratingRow}>
             <div className={styles.stars}>
               {[...Array(5)].map((_, i) => (
@@ -88,7 +98,7 @@ const ProductDetail: React.FC = () => {
           </div>
 
           <p className={styles.description}>{product.description}</p>
-          
+
           <div className={styles.priceSection}>
             <div className={styles.priceLabel}>Price</div>
             <div className={styles.price}>{formattedPrice}</div>
@@ -103,9 +113,7 @@ const ProductDetail: React.FC = () => {
               <ShoppingCart size={20} />
               {addToCartMutation.isPending ? 'Adding...' : 'Add to Cart'}
             </button>
-            <button className={styles.wishlistButton}>
-              Add to Wishlist
-            </button>
+            <button className={styles.wishlistButton}>Add to Wishlist</button>
           </div>
 
           <div className={styles.features}>
@@ -119,7 +127,7 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductDetail;
+export default ProductDetail

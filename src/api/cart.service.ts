@@ -27,7 +27,10 @@ export const cartService = {
   },
 
   addToCart: async (productId: number, quantity = 1) => {
-    const response = await apiClient.post<Cart>('/cart', { productId, quantity })
+    const response = await apiClient.post<Cart>('/cart', {
+      productId,
+      quantity,
+    })
     return response.data
   },
 

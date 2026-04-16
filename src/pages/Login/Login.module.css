@@ -84,7 +84,9 @@
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: opacity 0.2s, filter 0.2s;
+  transition:
+    opacity 0.2s,
+    filter 0.2s;
 }
 
 .submitBtn:hover {

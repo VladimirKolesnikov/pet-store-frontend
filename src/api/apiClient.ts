@@ -1,5 +1,9 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
-import { clearAuthStorage, getAccessToken, setAccessToken } from '../utils/storage'
+import {
+  clearAuthStorage,
+  getAccessToken,
+  setAccessToken,
+} from '../utils/storage'
 
 interface RefreshResponse {
   access_token: string
@@ -29,7 +33,7 @@ const refreshTokensInterceptor = async (error: AxiosError) => {
       const res = await axios.post<RefreshResponse>(
         `${import.meta.env.VITE_API_URL}/auth/refresh`,
         {},
-        { withCredentials: true },
+        { withCredentials: true }
       )
 
       const newAccessToken = res.data.access_token
@@ -59,7 +63,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(addAccessTokenInterceptor)
 apiClient.interceptors.response.use(
   (response) => response,
-  refreshTokensInterceptor,
+  refreshTokensInterceptor
 )
 
 export default apiClient

@@ -1,6 +1,12 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Menu, User, ChevronRight, ChevronDown } from 'lucide-react'
+import {
+  ShoppingBag,
+  Menu,
+  User,
+  ChevronRight,
+  ChevronDown,
+} from 'lucide-react'
 import styles from './Header.module.css'
 import { useQuery } from '@tanstack/react-query'
 import { categoryService } from '../../api/category.service'
@@ -11,19 +17,19 @@ import type { Category } from '../../types/category'
 export function Header() {
   const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
+  const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set())
   const { user, isAuthenticated, logout } = useAuth()
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['cat-menu'],
-    queryFn: () => categoryService.getChildren()
-  });
+    queryFn: () => categoryService.getChildren(),
+  })
 
   const { data: cartItems } = useQuery({
     queryKey: ['cart'],
     queryFn: cartService.getCart,
     enabled: isAuthenticated,
-  });
+  })
   const cartItemCount = isAuthenticated
     ? cartItems?.items.reduce((sum, item) => sum + item.quantity, 0) || 0
     : 0
@@ -33,7 +39,7 @@ export function Header() {
     navigate('/')
   }
 
-  const toggleCategory = (id: string) => {
+  const toggleCategory = (id: number) => {
     const newExpandedIds = new Set(expandedIds)
     if (newExpandedIds.has(id)) {
       newExpandedIds.delete(id)
@@ -48,22 +54,38 @@ export function Header() {
     const hasChildren = category.children && category.children.length > 0
 
     return (
-      <div key={category.id} className={styles.categoryItem} style={{ '--level': level } as any}>
+      <div
+        key={category.id}
+        className={styles.categoryItem}
+        style={{ '--level': level } as CSSProperties}
+      >
         <div className={styles.categoryHeader}>
-          <span className={styles.categoryName}>{category.name}</span>
+          <Link
+            to={`/categories/${category.slug}`}
+            className={styles.categoryLink}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            {category.name}
+          </Link>
           {hasChildren && (
             <button
               className={styles.expandBtn}
               onClick={() => toggleCategory(category.id)}
               aria-expanded={isExpanded}
             >
-              {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+              {isExpanded ? (
+                <ChevronDown size={16} />
+              ) : (
+                <ChevronRight size={16} />
+              )}
             </button>
           )}
         </div>
         {hasChildren && isExpanded && (
           <div className={styles.categoryChildren}>
-            {category.children!.map((child) => renderCategory(child, level + 1))}
+            {category.children!.map((child) =>
+              renderCategory(child, level + 1)
+            )}
           </div>
         )}
       </div>
@@ -97,7 +119,9 @@ export function Header() {
             <div className={styles.categoriesDropdown}>
               <div className={styles.categoriesList}>
                 {isLoading ? (
-                  <div style={{ padding: '1rem', textAlign: 'center' }}>Loading categories...</div>
+                  <div style={{ padding: '1rem', textAlign: 'center' }}>
+                    Loading categories...
+                  </div>
                 ) : (
                   categories.map((cat) => renderCategory(cat))
                 )}
@@ -126,7 +150,11 @@ export function Header() {
           )}
 
           {isAuthenticated ? (
-            <button type="button" className={styles.loginBtn} onClick={handleLogout}>
+            <button
+              type="button"
+              className={styles.loginBtn}
+              onClick={handleLogout}
+            >
               <User className={styles.icon} size={20} />
               <span>Log out</span>
             </button>

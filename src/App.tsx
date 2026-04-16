@@ -7,6 +7,11 @@ import { Home } from './pages/Home/Home'
 import { Login } from './pages/Login/Login'
 
 const ProductDetail = lazy(() => import('./pages/ProductDetail/ProductDetail'))
+const CategoryProducts = lazy(() =>
+  import('./pages/CategoryProducts/CategoryProducts').then((module) => ({
+    default: module.CategoryProducts,
+  }))
+)
 const Cart = lazy(() => import('./pages/Cart/Cart'))
 const ErrorPage = lazy(() => import('./pages/Error/Error'))
 
@@ -29,11 +34,27 @@ const router = createBrowserRouter([
       },
       {
         path: '/product/:id',
-        element: <Suspense fallback={<Loader />}><ProductDetail /></Suspense>,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductDetail />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/categories/:slug',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CategoryProducts />
+          </Suspense>
+        ),
       },
       {
         path: '/cart',
-        element: <Suspense fallback={<Loader />}><Cart /></Suspense>,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Cart />
+          </Suspense>
+        ),
       },
       {
         path: '*',

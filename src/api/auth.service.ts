@@ -1,18 +1,34 @@
 import apiClient from './apiClient'
-import { clearAuthStorage, setAccessToken, type StoredUser } from '../utils/storage'
+import {
+  clearAuthStorage,
+  setAccessToken,
+  type StoredUser,
+} from '../utils/storage'
 
 interface LoginResponse {
   access_token: string
 }
 
-export const register = async ({ email, password }: { email: string; password: string }) => {
+export const register = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) => {
   await apiClient.post('auth/register', {
     email,
     password,
   })
 }
 
-export const login = async ({ email, password }: { email: string; password: string }) => {
+export const login = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) => {
   const response = await apiClient.post<LoginResponse>('auth/login', {
     email,
     password,

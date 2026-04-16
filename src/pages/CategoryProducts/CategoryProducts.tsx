@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 import { productService } from '../../api/product.service'
 import { ProductCard } from '../../components/ProductCard/ProductCard'
-import styles from './Home.module.css'
+import styles from '../Home/Home.module.css'
 
-export function Home() {
+export function CategoryProducts() {
+  const { slug } = useParams<{ slug: string }>()
+
   const {
     data: products,
     isLoading,
@@ -11,8 +14,9 @@ export function Home() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => productService.findAll(),
+    queryKey: ['products', { category: slug }],
+    queryFn: () => productService.findAll({ category: slug }),
+    enabled: Boolean(slug),
   })
 
   if (isLoading) {
@@ -32,9 +36,7 @@ export function Home() {
 
   return (
     <div className={styles.container}>
-      <h3>
-        Welcome to Pet Store. Find the best products for your furry friends.
-      </h3>
+      <h3>Category: {slug}</h3>
       <div className={styles.grid}>
         {products?.map((product) => (
           <ProductCard key={product.id} product={product} />
