@@ -1,0 +1,265 @@
+.header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-family: var(--heading);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text-h);
+}
+
+.logoImage {
+  height: 32px;
+  width: 32px;
+}
+
+.categoriesWrapper {
+  position: relative;
+}
+
+.categoriesBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.categoriesBtn:hover,
+.categoriesBtn.active {
+  background: var(--code-bg);
+  border-color: var(--accent);
+}
+
+.categoriesDropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 280px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* .dropdownHeader {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--code-bg);
+} */
+
+/* .dropdownHeader h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+} */
+
+.categoriesList {
+  padding: 8px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.categoryItem {
+  padding-left: calc(var(--level) * 16px);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: default;
+  transition: background 0.2s;
+}
+
+.categoryHeader:hover {
+  background: var(--code-bg);
+}
+
+.categoryName {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.categoryLink {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.categoryItem[style*='--level: 0'] .categoryName,
+.categoryItem[style*='--level: 0'] .categoryLink {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.expandBtn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.expandBtn:hover {
+  background: var(--border);
+  color: var(--accent);
+}
+
+.categoryChildren {
+  border-left: 1px solid var(--border);
+  margin-left: 24px;
+  margin-bottom: 4px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userEmail {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.loginBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.loginBtn:hover {
+  filter: brightness(1.1);
+}
+
+@media (max-width: 768px) {
+  .userEmail,
+  .categoriesBtn span,
+  .loginBtn span {
+    display: none;
+  }
+}

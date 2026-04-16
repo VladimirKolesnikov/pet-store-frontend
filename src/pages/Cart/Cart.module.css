@@ -1,0 +1,243 @@
+.container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+  min-height: calc(100vh - 200px);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--accent);
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: var(--text-h);
+}
+
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.emptyIcon {
+  color: var(--accent);
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.shopButton {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+  transition: all 0.3s ease;
+}
+
+.shopButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 968px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+  background-color: red;
+}
+
+@media (max-width: 640px) {
+  .cartItem {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.details {
+  flex: 1;
+}
+
+.productName {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: var(--text-h);
+}
+
+.price {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.qtyBtn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: var(--text);
+}
+
+.qtyBtn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.qtyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity {
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  color: #ff4757;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.removeBtn:hover {
+  background: rgba(255, 71, 87, 0.1);
+}
+
+.summary {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 100px;
+}
+
+.summaryTitle {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-h);
+}
+
+.checkoutBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(110, 142, 251, 0.3);
+}
+
+.checkoutBtn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}

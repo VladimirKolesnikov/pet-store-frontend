@@ -1,0 +1,209 @@
+.container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  text-align: left;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--accent);
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 968px) {
+  .productGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.imageSection {
+  position: sticky;
+  top: 100px;
+}
+
+.imageCard {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.imageCard:hover .image {
+  transform: scale(1.02);
+}
+
+.badge {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.breadCrumb {
+  font-size: 0.9rem;
+  color: #888;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-h);
+  line-height: 1.1;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.reviews {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  margin: 10px 0;
+}
+
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.priceLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.actionSection {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.addToCartButton {
+  flex: 2;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(110, 142, 251, 0.3);
+}
+
+.addToCartButton:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.1);
+  box-shadow: 0 15px 35px rgba(110, 142, 251, 0.4);
+}
+
+.wishlistButton {
+  flex: 1;
+  background: gray;
+  color: var(--text-h);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wishlistButton:hover {
+  background: #f8f8f8;
+  border-color: var(--accent);
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.featureItem {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  gap: 20px;
+}
